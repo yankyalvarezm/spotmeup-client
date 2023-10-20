@@ -1,0 +1,263 @@
+body {
+  margin: 0;
+}
+.navbar{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100rem;
+  gap: 1rem;
+  background-color: black;
+}
+
+.navbar > input {
+  width: 86%;
+  margin-left: 6%;
+}
+
+.navlinks {
+  width: 90%;
+  height: 3rem;
+  text-align: left;
+  margin-left: 6%;
+  color: white;
+  background-color: black;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.navlinks:hover {
+  background-color: #3D3C47;
+  color: white;
+  border:  none;
+  border-radius: 5px;
+}
+h1 {
+  font-family: Helvetica, sans-serif;
+  color: white;
+  margin-left: 15%;
+}
+
+h1 > span {
+  color: grey;
+}
+
+hr {
+  width: 100%;
+  color: black;
+  border: 1px solid black;
+}
+
+.signup-page {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+
+.signup-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.signup-fields > input {
+  background-color: #3D3C47;
+  height: 3rem;
+  color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  margin: 0rem 10rem;
+}
+
+.signup-fields > button {
+  background-color: rgb(89, 43, 89);
+  padding: 1rem 0rem;
+  border-radius: 4px;
+  border: 1px solid white;
+  margin: 0rem 10rem;
+  font-weight: bold;
+  color: white;
+}
+
+.signup-fields > button:hover {
+  background-color: rgb(103, 27, 103);
+  cursor: pointer;
+}
+
+.signup-signin {
+  text-align: center;
+  color: white;
+  font-family: Helvetica, sans-serif;
+}
+
+.signup-title {
+  text-align: center;
+  margin-right: 14%;
+  
+}
+
+.signin-title {
+  text-align: center;
+  margin-right: 14%;
+}
+
+.signin-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.signin-fields > input {
+  background-color: #3D3C47;
+  height: 3rem;
+  color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  margin: 0rem 10rem;
+}
+
+.signin-fields > button {
+  background-color: rgb(89, 43, 89);
+  padding: 1rem 0rem;
+  border-radius: 4px;
+  border: 1px solid white;
+  font-weight: bold;
+  color: white;
+  margin: 0rem 10rem;
+}
+
+.signin-fields > button:hover {
+  background-color: rgb(103, 27, 103);
+  cursor: pointer;
+}
+
+.logout-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-container1 {
+  display: flex;
+  justify-content: center;
+  border: 4px solid #3D3C47;
+  background-color: black;
+  color: white;
+  margin-bottom: 1rem;
+  border-radius: 1.5rem;
+  margin-right: 5%;
+  margin-left: 5%;
+  align-items: center;
+}
+
+.admin-container1 > p {
+  font-family: Helvetica, sans-serif;
+  margin: auto;
+  padding: 1rem;
+}
+
+.admin-container1 > p:hover {
+  background-color: #3D3C47;
+  border-radius: 1rem;
+}
+
+.admin-container1 > a {
+  text-decoration: none;
+  font-family: Helvetica, sans-serif;
+  color: white;
+  margin: auto;
+  height: 100%;
+  padding: 1rem;
+}
+
+.admin-container1 > a:hover {
+  background-color: #3D3C47;
+  border-radius: 1rem;
+}
+
+.myevents-title {
+  font-family: Helvetica, sans-serif;
+  text-align: center;
+  background-color: #3D3C47;
+  color: white;
+  padding: 1rem;
+  border: 4px solid black;
+  border-radius: 1.5rem;
+  margin-right: 5%;
+  margin-left: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.myevents-title:hover {
+  background-color: #3c3a51;
+  cursor: pointer;
+}
+
+.myEvents {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+
+.admin-hr {
+  text-align: center;
+  width: 80%;
+  margin-left: 8%;
+  border: 1px solid white;
+}
+
+p {
+  margin: 0rem;
+}
+
+.navbar-hr {
+  border: 1px solid white;
+  width: 75%;
+}
+
+.nav-icon {
+  height: 30px;
+  width: 30px;
+}
+
+.main-content {
+  background-color: #0F0E16;
+}
+
+.login-form {
+  background-color: #0F0E16;
+}
+
+.signup-form {
+  background-color: #0F0E16;
+}
+
+.selected {
+  background-color: #3D3C47;
+  border-radius: 1rem;
+}
+
+.form-venue {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: 0 auto;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.venue-error {
+  text-align: center;
+  color: red;
+  font-family: Arial, Helvetica, sans-serif;
+}
