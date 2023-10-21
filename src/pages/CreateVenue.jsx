@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import AllVenues from "../components/AllVenues";
 
 const CreateVenue = () => {
   const initialFormData = {
@@ -13,6 +14,7 @@ const CreateVenue = () => {
     layout: [],
   };
 
+  const [updateTrigger, setUpdateTrigger] = useState(0);
   const [formData, setFormData] = useState(initialFormData);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -34,6 +36,7 @@ const CreateVenue = () => {
       if (response.data.success) {
         setFormData(initialFormData);
         alert("Venue creado exitosamente");
+        setUpdateTrigger((prev) => prev + 1);
       } else {
         setErrorMessage(response.data.msg || "Error al crear el venue");
       }
@@ -52,7 +55,7 @@ const CreateVenue = () => {
           <div>
             <Link to="/myevents">
               <h3 className="myevents-title">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA0ElEQVR4nO3YuQrCQBRG4YO+laWouHRu2Gip4kNro41gIeICLpGBKSQkWCjRe/k/mD6HJJM7ARERERGRAvWBLbAHxhg1Am5AEleIKWPMALi+RIS1A0oY0suICHdmiCFt4JKKuAMTDGllRDyAKYY0gXNGxAxDGjkRcwyp50QsMKQGnKxHVIFjKqLItYqby0cqwOGHEUlca4X80aO1jFv+V7h42V1tv64+iK5GFFdDo6sx/t3BKpzf8XDU3eDk58MGw7oxIMxFnV9fjIiIiIgIaU9zyuryINMk1gAAAABJRU5ErkJggg==" />
+                <img src="data:image/png;base64,... (tu imagen en base64) ..." />
                 Go Back
               </h3>
             </Link>
@@ -71,43 +74,44 @@ const CreateVenue = () => {
             <p>Private</p>
             <p>Other</p>
           </div>
-          <hr className="admin-hr" />
         </div>
 
         <div>
           <form onSubmit={handleSubmit} className="form-venue">
+            <h1 className="createvenue-title">New Venue</h1>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Name of the venue"
+              placeholder="  Name of the venue"
             />
             <input
               type="text"
               name="address"
               value={formData.address}
               onChange={handleChange}
-              placeholder="Address"
+              placeholder="  Address"
             />
             <input
               type="text"
               name="owner"
               value={formData.owner}
               onChange={handleChange}
-              placeholder="Owner"
+              placeholder="  Owner"
             />
             <input
               type="number"
               name="capacity"
               value={formData.capacity}
               onChange={handleChange}
-              placeholder="Capacity"
+              placeholder="  Capacity"
             />
-            {/* Aquí puedes agregar inputs para el layout y otros campos que necesites */}
             <button type="submit">Create Venue</button>
             <h3 className="venue-error">{errorMessage}</h3>
+            <hr className="admin-hr" />
           </form>
+          <AllVenues updateTrigger={updateTrigger} />{" "}
         </div>
       </div>
     </div>

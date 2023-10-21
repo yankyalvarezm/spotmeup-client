@@ -5,7 +5,9 @@ import HomePage from "./pages/HomePage";
 import MyEvents from "./pages/MyEvents";
 import Create from "./pages/Create";
 import CreateVenue from "./pages/CreateVenue";
-
+import Venues from "./pages/Venues";
+import AboutUs from "./pages/AboutUs";
+import Events from "./pages/Events";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 
 function App() {
@@ -27,6 +29,7 @@ function App() {
         {/* <Route element={<NotLoggedIn />}> */}
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/about" element={<AboutUs />} />
         {/* </Route> */}
 
         {/* <Route element={<LoggedIn />}> */}
@@ -34,7 +37,10 @@ function App() {
         <Route path="/myevents" element={<MyEvents />} />
         <Route path="/myevents/create" element={<Create />} />
         <Route path="/myevents/create/venue" element={<CreateVenue />} />
+        <Route path="/events" element={<Events />} />
         {/* </Route> */}
+
+        <Route path="/venues" element={<Venues />} />
       </Routes>
     </div>
   );
