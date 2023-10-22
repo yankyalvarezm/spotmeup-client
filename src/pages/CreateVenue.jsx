@@ -9,8 +9,12 @@ const CreateVenue = () => {
   const initialFormData = {
     name: "",
     address: "",
+    city: "",
+    state: "",
+    zipcode: "",
     owner: "",
     capacity: "",
+    description: "",
     layout: [],
   };
 
@@ -44,6 +48,59 @@ const CreateVenue = () => {
       setErrorMessage("Ocurrió un error. Por favor, intenta nuevamente.");
     }
   };
+
+  const US_STATES = [
+    { name: "Alabama", abbreviation: "AL" },
+    { name: "Alaska", abbreviation: "AK" },
+    { name: "Arizona", abbreviation: "AZ" },
+    { name: "Arkansas", abbreviation: "AR" },
+    { name: "California", abbreviation: "CA" },
+    { name: "Colorado", abbreviation: "CO" },
+    { name: "Connecticut", abbreviation: "CT" },
+    { name: "Delaware", abbreviation: "DE" },
+    { name: "Florida", abbreviation: "FL" },
+    { name: "Georgia", abbreviation: "GA" },
+    { name: "Hawaii", abbreviation: "HI" },
+    { name: "Idaho", abbreviation: "ID" },
+    { name: "Illinois", abbreviation: "IL" },
+    { name: "Indiana", abbreviation: "IN" },
+    { name: "Iowa", abbreviation: "IA" },
+    { name: "Kansas", abbreviation: "KS" },
+    { name: "Kentucky", abbreviation: "KY" },
+    { name: "Louisiana", abbreviation: "LA" },
+    { name: "Maine", abbreviation: "ME" },
+    { name: "Maryland", abbreviation: "MD" },
+    { name: "Massachusetts", abbreviation: "MA" },
+    { name: "Michigan", abbreviation: "MI" },
+    { name: "Minnesota", abbreviation: "MN" },
+    { name: "Mississippi", abbreviation: "MS" },
+    { name: "Missouri", abbreviation: "MO" },
+    { name: "Montana", abbreviation: "MT" },
+    { name: "Nebraska", abbreviation: "NE" },
+    { name: "Nevada", abbreviation: "NV" },
+    { name: "New Hampshire", abbreviation: "NH" },
+    { name: "New Jersey", abbreviation: "NJ" },
+    { name: "New Mexico", abbreviation: "NM" },
+    { name: "New York", abbreviation: "NY" },
+    { name: "North Carolina", abbreviation: "NC" },
+    { name: "North Dakota", abbreviation: "ND" },
+    { name: "Ohio", abbreviation: "OH" },
+    { name: "Oklahoma", abbreviation: "OK" },
+    { name: "Oregon", abbreviation: "OR" },
+    { name: "Pennsylvania", abbreviation: "PA" },
+    { name: "Rhode Island", abbreviation: "RI" },
+    { name: "South Carolina", abbreviation: "SC" },
+    { name: "South Dakota", abbreviation: "SD" },
+    { name: "Tennessee", abbreviation: "TN" },
+    { name: "Texas", abbreviation: "TX" },
+    { name: "Utah", abbreviation: "UT" },
+    { name: "Vermont", abbreviation: "VT" },
+    { name: "Virginia", abbreviation: "VA" },
+    { name: "Washington", abbreviation: "WA" },
+    { name: "West Virginia", abbreviation: "WV" },
+    { name: "Wisconsin", abbreviation: "WI" },
+    { name: "Wyoming", abbreviation: "WY" },
+  ];
 
   return (
     <div className="myEvents">
@@ -86,26 +143,68 @@ const CreateVenue = () => {
               onChange={handleChange}
               placeholder="  Name of the venue"
             />
+            <div className="form-venue2">
+              <input
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                placeholder="  Address"
+              />
+              <input
+                type="number"
+                name="capacity"
+                value={formData.capacity}
+                onChange={handleChange}
+                placeholder="  Capacity"
+              />
+            </div>
+            <div className="form-venue2">
+              <select
+                name="state"
+                value={formData.state}
+                onChange={handleChange}
+              >
+                <option value="" disabled>
+                  Select a state
+                </option>
+                {US_STATES.map((state, index) => (
+                  <option key={index} value={state.abbreviation}>
+                    {state.name} {state.abbreviation}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="text"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                placeholder="  City"
+              />
+            </div>
+            <div className="form-venue2">
+              <input
+                type="text"
+                name="zipcode"
+                value={formData.zipcode}
+                onChange={handleChange}
+                placeholder="  Zip Code"
+              />
+              <input
+                type="text"
+                name="owner"
+                value={formData.owner}
+                onChange={handleChange}
+                placeholder="  Owner"
+              />
+            </div>
+
             <input
               type="text"
-              name="address"
-              value={formData.address}
+              name="description"
+              value={formData.description}
               onChange={handleChange}
-              placeholder="  Address"
-            />
-            <input
-              type="text"
-              name="owner"
-              value={formData.owner}
-              onChange={handleChange}
-              placeholder="  Owner"
-            />
-            <input
-              type="number"
-              name="capacity"
-              value={formData.capacity}
-              onChange={handleChange}
-              placeholder="  Capacity"
+              placeholder="  Description"
             />
             <button type="submit">Create Venue</button>
             <h3 className="venue-error">{errorMessage}</h3>

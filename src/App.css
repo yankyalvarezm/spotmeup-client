@@ -262,6 +262,19 @@ p {
   margin-top: 1rem;
 }
 
+.form-venue2 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.form-venue2 > input{
+  width: 100%;
+}
+.form-venue2 > select{
+  width: 102%;
+}
 .venue-error {
   text-align: center;
   color: red;
@@ -273,10 +286,26 @@ a {
   text-decoration: none;
 }
 
+.form-venue > div> input {
+  background-color: #3c3a51;
+  border: 1px solid black;
+  height: 2rem;
+  border-radius: 4px;
+  color: white;
+}
+
 .form-venue > input {
   background-color: #3c3a51;
   border: 1px solid black;
   height: 2rem;
+  border-radius: 4px;
+  color: white;
+}
+
+.form-venue > div >select {
+  background-color: #3c3a51;
+  border: 1px solid black;
+  height: 2.3rem;
   border-radius: 4px;
   color: white;
 }
@@ -390,4 +419,152 @@ p {
 .aboutus-container > h4 {
   color: #3D3C47;
   margin: 1rem 10%;
+}
+
+.modal {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; 
+  backdrop-filter: blur(5px);
+  background-color: rgba(255, 255, 255, 0.8); 
+  font-family: Arial, Helvetica, sans-serif;
+  border: 4px solid black;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  z-index: 999; 
+  
+}
+
+.modal-container > p > span {
+  font-weight: bold;
+}
+
+.modal-container {
+  text-align: left;
+}
+
+.modal-title {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.modal-title > img {
+  height: 20px;
+  width: 20px;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.edit-image {
+  border: 1px solid black;
+  border-radius: 50%;
+  padding: 0.4rem;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.edit-image:hover {
+  background-color: #3c3a51; 
+}
+
+.venue-edit-save-changes {
+  background-color: #3c3a51;
+  border: 2px solid black;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.venue-edit-save-changes:hover {
+  background-color: #3D3C47;
+}
+
+
+.edit-input-container1 > input{
+  background-color: #3c3a51;
+  border: 1px solid black;
+  color: white;
+  width: 97.5%;
+}
+
+.edit-input-container1 > div >input{
+  background-color: #3c3a51;
+  border: 1px solid black;
+  border-radius: 6px;
+  color: white;
+  width: 97.5%;
+}
+.edit-input-container1 > div >select{
+  background-color: #3c3a51;
+  border: 1px solid black;
+  border-radius: 6px;
+  color: white;
+  width: 97.5%;
+}
+
+.edit-input-container1 > input:first-of-type{
+  margin-bottom: 1rem;
+  border-radius: 6px;
+}
+
+.edit-input-container1 > input:last-of-type{
+  margin-top: 0;
+  height: 6rem;
+  border-radius: 6px;
+  color: white;
+}
+
+.edit-input-container > select{
+  width: 97.5%;
+}
+
+.edit-input-container {
+  margin-bottom: 0.5rem;
+  display: flex;
+  width: 100%;
+}
+
+.edit-input-container:last-of-type {
+  margin-bottom: 0;
+}
+
+.edit-input-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.edit-title-input {
+  display: flex;
+  justify-content: space-around;
+  font-weight: bold;
+}
+
+.nameofvenue-edit {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.nameofvenue-edit:last-of-type {
+  margin: 0.8rem 0rem;
 }

@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import editIcon from "../../public/images/edit-icon.png";
+import CreateModal from "./CreateModal";
+import { Link } from "react-router-dom";
 
 const AllVenues = ({ updateTrigger }) => {
   const [venues, setVenues] = useState([]);
+  const [selectedVenue, setSelectedVenue] = useState(null);
+  const [refresh, setRefresh] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -26,7 +32,47 @@ const AllVenues = ({ updateTrigger }) => {
     };
 
     fetchVenues();
-  }, [updateTrigger]);
+  }, [updateTrigger, refresh]);
+
+  const handleVenueClick = (venue) => {
+    setSelectedVenue(venue);
+  };
+
+  const closeModal = () => {
+    setSelectedVenue(null);
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSelectedVenue((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      const { data } = await axios.put(
+        `http://localhost:3000/venue/edit/${selectedVenue._id}`,
+        selectedVenue
+      );
+
+      if (data.success) {
+        const updatedVenue = data.venue;
+
+        const updatedVenues = venues.map((venue) =>
+          venue._id === updatedVenue._id ? updatedVenue : venue
+        );
+
+        setVenues(updatedVenues);
+      }
+      setIsEditing(false);
+      setRefresh(!refresh);
+    } catch (error) {
+      console.error("Error updating venue:", error);
+    }
+  };
 
   if (isLoading) {
     return <div>Loading venues...</div>;
@@ -41,7 +87,11 @@ const AllVenues = ({ updateTrigger }) => {
       <h2 className="all-venues">All Venues</h2>
       <div className="all-venues-container">
         {venues.map((venue) => (
-          <div key={venue._id} className="all-venues-data">
+          <div
+            key={venue._id}
+            className="all-venues-data"
+            onClick={() => handleVenueClick(venue)}
+          >
             <h2>{venue.name}</h2>
             <div className="venues-data-grid">
               <div className="venues-flex">
@@ -60,6 +110,16 @@ const AllVenues = ({ updateTrigger }) => {
             </div>
           </div>
         ))}
+      </div>
+      <div>
+        <CreateModal
+          selectedVenue={selectedVenue}
+          closeModal={closeModal}
+          isEditing={isEditing}
+          handleEditClick={handleEditClick}
+          handleInputChange={handleInputChange}
+          handleSaveChanges={handleSaveChanges}
+        />
       </div>
     </div>
   );
