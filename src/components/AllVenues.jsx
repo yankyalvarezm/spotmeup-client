@@ -16,7 +16,7 @@ const AllVenues = ({ updateTrigger }) => {
         "http://localhost:3000/venue/allvenues"
       );
 
-      if (response.data.success && Array.isArray(response.data.venue)) {
+      if (response.data.success) {
         setVenues(response.data.venue);
         console.log("Line 21 - Venues:", response.data);
       } else {
@@ -119,6 +119,8 @@ const AllVenues = ({ updateTrigger }) => {
           handleInputChange={handleInputChange}
           handleSaveChanges={handleSaveChanges}
           fetchVenues={fetchVenues}
+          refresh={refresh}
+          setRefresh={setRefresh}
         />
       </div>
     </div>
