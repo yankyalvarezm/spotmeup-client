@@ -457,6 +457,7 @@ p {
 
 .modal-container {
   text-align: left;
+  width: 100%;
 }
 
 .modal-title {
@@ -567,4 +568,76 @@ p {
 
 .nameofvenue-edit:last-of-type {
   margin: 0.8rem 0rem;
+}
+#trash-icon {
+  height: 30px;
+  width: 30px;
+  margin-bottom: 12%;
+}
+
+.modal-icons-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.traash-icon-container {
+  border: 1px solid black;
+  border-radius: 50%;
+  padding: 0.4rem;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.traash-icon-container:hover {
+  background-color: #3c3a51;
+}
+
+.hide {
+  display: none;
+}
+
+.delete-confirmation-modal {
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.delete-confirmation-modal>p {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.delete-confirmation-btn {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.delete-confirmation-btn>button {
+  cursor: pointer;
+  padding: 10px 20px;
+  background-color: #7a7a7e;
+  border: 1px solid black;
+}
+
+.delete-confirmation-btn>button:hover {
+  background-color: #3D3C47;
+}
+
+.detail {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.unhide {
+  width: 100%;
+}
+
+.detail>p:first-of-type {
+  font-weight: bold;
+}
+
+.detail>p:last-of-type {
+  text-align: left;
 }

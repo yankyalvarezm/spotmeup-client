@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import editIcon from "../../public/images/edit-icon.png";
+import trashIcon from "../../public/images/trash-icon.png";
 
 const US_STATES = [
   { name: "Alabama", abbreviation: "AL" },
@@ -51,154 +53,169 @@ const US_STATES = [
   { name: "Washington", abbreviation: "WA" },
   { name: "West Virginia", abbreviation: "WV" },
   { name: "Wisconsin", abbreviation: "WI" },
-  { name: "Wyoming", abbreviation: "WY" },
+  { name: "Wyoming", abbreviation: "WY" }
 ];
 
-const CreateModal = ({
-  selectedVenue,
-  closeModal,
-  isEditing,
-  handleEditClick,
-  handleInputChange,
-  handleSaveChanges,
-}) => {
+const CreateModal = ({ selectedVenue, closeModal, isEditing, handleEditClick, handleInputChange, handleSaveChanges, refresh, setRefresh, venues, setVenues, fetchVenues = { fetchVenues } }) => {
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+
+  const handleDeleteVenue = async () => {
+    try {
+      const { data } = await axios.delete(`http://localhost:3000/venue/delete/${selectedVenue._id}`, { data: selectedVenue });
+      if (data.success) {
+        fetchVenues();  // Ahora estás usando la función fetchVenues del padre
+        setRefresh(!refresh);
+        console.log('Line 68 - Page Refresh', refresh)
+      }
+    } catch (error) {
+      console.error("Error deleting venue:", error);
+    }
+    setShowDeleteConfirmation(false);
+    closeModal();
+  };
+
   if (!selectedVenue) return null;
 
-  return (
+  return (  
     <>
       <div className="modal-background" onClick={closeModal}></div>
       <div className="modal">
-        <div className="modal-title">
-          <h2>{selectedVenue.name}</h2>
-          <div
-            className={isEditing ? "venue-edit" : "edit-image"}
-            onClick={isEditing ? handleSaveChanges : handleEditClick}
-          >
-            {isEditing ? (
-              <button className="venue-edit-save-changes">Save Changes</button>
-            ) : (
-              <img src={editIcon} alt="edit-icon" />
-            )}
-          </div>
-        </div>
-        <div className="modal-container">
-          {isEditing ? (
-            <div className="edit-input-container1">
-              <p className="nameofvenue-edit">Name of venue</p>
-              <input
-                type="text"
-                name="name"
-                value={selectedVenue.name}
-                onChange={handleInputChange}
-                placeholder="  Name of the venue"
-              />
-              <div className="edit-title-input">
-                <p>Addres</p>
-                <p>Capacity</p>
-              </div>
-              <div className="edit-input-container">
-                <input
-                  type="text"
-                  name="address"
-                  value={selectedVenue.address}
-                  onChange={handleInputChange}
-                  placeholder="  Address"
-                />
-                <input
-                  type="number"
-                  name="capacity"
-                  value={selectedVenue.capacity}
-                  onChange={handleInputChange}
-                  placeholder="  Capacity"
-                />
-              </div>
-              <div className="edit-title-input">
-                <p>State</p>
-                <p>City</p>
-              </div>
-              <div className="edit-input-container">
-                <select
-                  name="state"
-                  value={selectedVenue.state}
-                  onChange={handleInputChange}
-                >
-                  <option value="" disabled>
-                    Select a state
-                  </option>
-                  {US_STATES.map((state, index) => (
-                    <option key={index} value={state.abbreviation}>
-                      {state.name} {state.abbreviation}
-                    </option>
-                  ))}
-                </select>
-                <input
-                  type="text"
-                  name="city"
-                  value={selectedVenue.city}
-                  onChange={handleInputChange}
-                  placeholder="  City"
-                />
-              </div>
-              <div className="edit-title-input">
-                <p>Zip Code</p>
-                <p>Owner</p>
-              </div>
-              <div className="edit-input-container">
-                <input
-                  type="text"
-                  name="zipcode"
-                  value={selectedVenue.zipcode}
-                  onChange={handleInputChange}
-                  placeholder="  Zip Code"
-                />
-                <input
-                  type="text"
-                  name="owner"
-                  value={selectedVenue.owner}
-                  onChange={handleInputChange}
-                  placeholder="  Owner"
-                />
-              </div>
-              <p className="nameofvenue-edit">Description</p>
-              <input
-                type="text"
-                name="description"
-                value={selectedVenue.description}
-                onChange={handleInputChange}
-                placeholder="  Description"
-              />
-            </div>
-          ) : (
-            <>
-              <p>
-                <span>Address:</span> {selectedVenue.address}
-              </p>
-              <p>
-                <span>City:</span> {selectedVenue.city}
-              </p>
-              <p>
-                <span>State:</span> {selectedVenue.state}
-              </p>
-              <p>
-                <span>Zip Code:</span> {selectedVenue.zipcode}
-              </p>
-              <p>
-                <span>Capacity:</span> {selectedVenue.capacity}
-              </p>
-              <p>
-                <span>Owner:</span>
-                {selectedVenue.owner}
-              </p>
-              <p>
-                <span>Desciption:</span>
-                {selectedVenue.description}
-              </p>
-            </>
-          )}
-        </div>
+        <ModalHeader
+          selectedVenue={selectedVenue}
+          isEditing={isEditing}
+          setShowDeleteConfirmation={setShowDeleteConfirmation}
+          handleEditClick={handleEditClick}
+          handleSaveChanges={handleSaveChanges}
+        />
+        <ModalContainer
+          showDeleteConfirmation={showDeleteConfirmation}
+          setShowDeleteConfirmation={setShowDeleteConfirmation}
+          handleDeleteVenue={handleDeleteVenue}
+          isEditing={isEditing}
+          selectedVenue={selectedVenue}
+          handleInputChange={handleInputChange}
+        />
       </div>
     </>
   );
 };
+
+const ModalHeader = ({ selectedVenue, isEditing, setShowDeleteConfirmation, handleEditClick, handleSaveChanges }) => (
+  <div className="modal-title">
+    <h2>{selectedVenue.name}</h2>
+    <div className="modal-icons-container">
+      <EditIcon isEditing={isEditing} setShowDeleteConfirmation={setShowDeleteConfirmation} handleEditClick={handleEditClick} handleSaveChanges={handleSaveChanges} />
+      {!isEditing && <TrashIcon setShowDeleteConfirmation={setShowDeleteConfirmation} />}
+    </div>
+  </div>
+);
+
+const EditIcon = ({ isEditing, setShowDeleteConfirmation, handleEditClick, handleSaveChanges }) => (
+  <div
+    className={isEditing ? "venue-edit" : "edit-image"}
+    onClick={() => {
+      setShowDeleteConfirmation(false);
+      isEditing ? handleSaveChanges() : handleEditClick();
+    }}
+  >
+    {isEditing ? <button className="venue-edit-save-changes">Save Changes</button> : <img src={editIcon} alt="edit-icon" />}
+  </div>
+);
+
+const TrashIcon = ({ setShowDeleteConfirmation }) => (
+  <div className="traash-icon-container">
+    <img
+      src={trashIcon}
+      alt="trash icon"
+      id="trash-icon"
+      onClick={() => {
+        setShowDeleteConfirmation(true);
+      }}
+    />
+  </div>
+);
+
+const ModalContainer = ({ showDeleteConfirmation, setShowDeleteConfirmation, handleDeleteVenue, isEditing, selectedVenue, handleInputChange }) => (
+  <div className="modal-container">
+    {showDeleteConfirmation ? <DeleteConfirmation setShowDeleteConfirmation={setShowDeleteConfirmation} handleDeleteVenue={handleDeleteVenue} /> : null}
+    {isEditing ? (
+      <EditVenueInputs selectedVenue={selectedVenue} handleInputChange={handleInputChange} />
+    ) : (
+      <VenueDetails showDeleteConfirmation={showDeleteConfirmation} selectedVenue={selectedVenue} />
+    )}
+  </div>
+);
+
+const DeleteConfirmation = ({ setShowDeleteConfirmation, handleDeleteVenue }) => (
+  <div className="delete-confirmation-modal">
+    <p>U sure?</p>
+    <div className="delete-confirmation-btn">
+      <button onClick={handleDeleteVenue}>Sí</button>
+      <button onClick={() => setShowDeleteConfirmation(false)}>No</button>
+    </div>
+  </div>
+);
+
+const EditVenueInputs = ({ selectedVenue, handleInputChange }) => (
+  <div className="edit-input-container1">
+    {RenderEditInput("nameofvenue-edit", "Name of venue", "text", "name", selectedVenue.name, handleInputChange, "  Name of the venue")}
+    <TwoColumnEditInputs titles={["Addres", "Capacity"]} names={["address", "capacity"]} types={["text", "number"]} values={[selectedVenue.address, selectedVenue.capacity]} handleInputChange={handleInputChange} />
+    <TwoColumnEditInputs titles={["State", "City"]} names={["state", "city"]} types={["select", "text"]} values={[selectedVenue.state, selectedVenue.city]} handleInputChange={handleInputChange} />
+    <TwoColumnEditInputs titles={["Zip Code", "Owner"]} names={["zipcode", "owner"]} types={["text", "text"]} values={[selectedVenue.zipcode, selectedVenue.owner]} handleInputChange={handleInputChange} />
+    {RenderEditInput("nameofvenue-edit", "Description", "text", "description", selectedVenue.description, handleInputChange, "  Description")}
+  </div>
+);
+
+const TwoColumnEditInputs = ({ titles, names, types, values, handleInputChange }) => (
+  <>
+    <div className="edit-title-input">
+      <p>{titles[0]}</p>
+      <p>{titles[1]}</p>
+    </div>
+    <div className="edit-input-container">
+      {types[0] === "select" ? (
+        <select name={names[0]} value={values[0]} onChange={handleInputChange}>
+          <option value="" disabled>
+            Select a state
+          </option>
+          {US_STATES.map((state, index) => (
+            <option key={index} value={state.abbreviation}>
+              {state.name} {state.abbreviation}
+            </option>
+          ))}
+        </select>
+      ) : (
+        RenderEditInput(null, null, types[0], names[0], values[0], handleInputChange, `  ${titles[0]}`)
+      )}
+      {RenderEditInput(null, null, types[1], names[1], values[1], handleInputChange, `  ${titles[1]}`)}
+    </div>
+  </>
+);
+
+const RenderEditInput = (className, label, type, name, value, handleInputChange, placeholder) => (
+  <>
+    {label ? <p className={className}>{label}</p> : null}
+    <input type={type} name={name} value={value} onChange={handleInputChange} placeholder={placeholder} />
+  </>
+);
+
+const VenueDetails = ({ showDeleteConfirmation, selectedVenue }) => (
+  <div className={showDeleteConfirmation ? 'hide' : 'unhide'}>
+    {RenderVenueDetail("Address", selectedVenue.address)}
+    {RenderVenueDetail("City", selectedVenue.city)}
+    {RenderVenueDetail("State", selectedVenue.state)}
+    {RenderVenueDetail("Zip Code", selectedVenue.zipcode)}
+    {RenderVenueDetail("Capacity", selectedVenue.capacity)}
+    {RenderVenueDetail("Owner", selectedVenue.owner)}
+    {RenderVenueDetail("Description", selectedVenue.description)}
+  </div>
+);
+
+const RenderVenueDetail = (title, value) => (
+  <div className="detail">
+    <p>{title}:</p>
+    <p>{value}</p>
+  </div>
+);
 
 export default CreateModal;

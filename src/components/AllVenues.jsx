@@ -10,27 +10,26 @@ const AllVenues = ({ updateTrigger }) => {
   const [refresh, setRefresh] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const fetchVenues = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/venue/allvenues"
+      );
+
+      if (response.data.success && Array.isArray(response.data.venue)) {
+        setVenues(response.data.venue);
+        console.log("Line 21 - Venues:", response.data);
+      } else {
+        setVenues([]);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching venues:", error);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchVenues = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/venue/allvenues"
-        );
-        console.log("Line 14 - Venues:", response.data);
-
-        if (response.data.success && Array.isArray(response.data.venue)) {
-          setVenues(response.data.venue);
-        } else {
-          setVenues([]);
-        }
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching venues:", error);
-        setIsLoading(false);
-      }
-    };
-
     fetchVenues();
   }, [updateTrigger, refresh]);
 
@@ -119,6 +118,7 @@ const AllVenues = ({ updateTrigger }) => {
           handleEditClick={handleEditClick}
           handleInputChange={handleInputChange}
           handleSaveChanges={handleSaveChanges}
+          fetchVenues={fetchVenues}
         />
       </div>
     </div>
