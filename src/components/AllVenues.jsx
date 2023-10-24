@@ -12,9 +12,7 @@ const AllVenues = ({ updateTrigger }) => {
   const [isLoading, setIsLoading] = useState(true);
   const fetchVenues = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/venue/allvenues"
-      );
+      const response = await axios.get("http://localhost:3000/venue/allvenues");
 
       if (response.data.success) {
         setVenues(response.data.venue);
@@ -47,10 +45,27 @@ const AllVenues = ({ updateTrigger }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setSelectedVenue((prevState) => ({ ...prevState, [name]: value }));
-  };
+
+    setSelectedVenue(prevState => {
+        let updatedVenue = {...prevState};
+
+        if (name === "layout") {
+            updatedVenue.layout = [...prevState.layout, value];
+        } else {
+            updatedVenue[name] = value;
+        }
+
+        console.log("Line 49 - Selected Venue antes de actualización:", prevState);
+        console.log("Line 50 - e.target", e.target);
+        console.log("Line 51 - Selected Venue después de actualización:", updatedVenue);
+
+        return updatedVenue;
+    });
+};
+
 
   const handleSaveChanges = async () => {
+    console.log("line 53", selectedVenue);
     try {
       const { data } = await axios.put(
         `http://localhost:3000/venue/edit/${selectedVenue._id}`,
@@ -121,6 +136,7 @@ const AllVenues = ({ updateTrigger }) => {
           fetchVenues={fetchVenues}
           refresh={refresh}
           setRefresh={setRefresh}
+          venues={venues}
         />
       </div>
     </div>
