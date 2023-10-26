@@ -807,9 +807,8 @@ p {
 
 .add-layout-section {
   width: 20%;
-  /* margin-right: 1rem; */
   text-align: center;
-  /* margin: 0 auto; */
+  margin: 0 auto;
 }
 
 .add-section-form3 {
@@ -853,17 +852,36 @@ h5 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 0.7rem;
-  margin-top: 0.5rem;
-  border: 1px solid black;
-  padding: 1rem 1rem;
+  grid-row-gap: 0.7rem;
+  margin: 0 auto;
+  /* border: 1px solid black; */
 }
 
 .sec-name {
   padding: 0.2rem;
+  border: 1px solid black;
+  white-space: nowrap;
 }
 
 .sec-name:hover {
   background-color: #3c3a51;
   color: white;
   cursor: pointer;
+}
+
+.add-delete-section {
+  display: flex;
+  gap: 1rem;
+}
+
+.sec-name-cont {
+  /* padding: 1rem; */
+  /* text-align: center; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.github-picker{
+  width: 100%;
 }

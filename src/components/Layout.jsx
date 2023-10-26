@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Compact from "react-color/lib";
+import { Github } from "react-color/lib/components/github/Github";
 
 let initialFormData = {
   name: "",
@@ -35,6 +37,9 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
     initialSectionFormData
   );
   const [section, setSection] = useState([]);
+  const [isEditingSection2, setIsEditingSection] = useState(false);
+
+  let isEditingSection = !!sectionFormData._id;
 
   const handleForm = () => {
     setShowForm((prevState) => !prevState);
@@ -43,6 +48,7 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
   };
   const handleChangeSection = (e) => {
     const { name, value } = e.target;
+
     setSectionFormData((prevState) => ({
       ...prevState,
       [name]: value,
@@ -50,6 +56,14 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
   };
   const handleSectionForm = () => {
     setShowSectionForm((prevState) => !prevState);
+    setIsEditingSection(false); // Use this instead
+  };
+
+  const handleSectionClick = (sectionId) => {
+    const currentSection = section.find((sec) => sec._id === sectionId);
+    setSectionFormData(currentSection);
+    setShowSectionForm(true);
+    setIsEditingSection(true); // Set to true since you're editing
   };
 
   const handleLayoutClick = (layout) => {
@@ -105,8 +119,8 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
       }
 
       if (response.data.success) {
-        setSection(response.data.sections);
         setChange(!change);
+        setSection(response.data.sections);
         console.log(response.data);
       } else {
         console.error(response.data.message);
@@ -124,15 +138,15 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
       const sectionResponse = await axios.post(
         "http://localhost:3000/layout/section",
         {
-          name: e.target.name.value,
-          status: e.target.status.value,
-          top: e.target.top.value,
-          bottom: e.target.bottom.value,
-          left: e.target.left.value,
-          right: e.target.right.value,
-          width: e.target.width.value,
-          height: e.target.height.value,
-          color: e.target.color.value,
+          name: sectionFormData.name,
+          status: sectionFormData.status,
+          top: sectionFormData.top,
+          bottom: sectionFormData.bottom,
+          left: sectionFormData.left,
+          right: sectionFormData.right,
+          width: sectionFormData.width,
+          height: sectionFormData.height,
+          color: sectionFormData.color,
         }
       );
 
@@ -179,6 +193,48 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
       }
     } catch (error) {
       console.log("Error handling the section:", error);
+    }
+  };
+
+  const handleUpdateSection = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/layout/section/edit/${sectionFormData._id}`,
+        sectionFormData
+      );
+      console.log("Line 198 - sectionFormData:", sectionFormData);
+      if (response.data) {
+        alert("Sección actualizada exitosamente");
+        setSection(response.data.sections);
+        setShowSectionForm(false);
+        getSectionsFromLayout(editingLayoutId);
+        setChange(!change);
+      } else {
+        alert("Error actualizando la sección");
+      }
+    } catch (error) {
+      console.error("Error al actualizar la sección:", error);
+    }
+  };
+
+  const deleteSection = async () => {
+    try {
+      const apiUrl = `http://localhost:3000/layout/section/delete/${sectionFormData._id}`;
+
+      const response = await axios.delete(apiUrl);
+
+      if (response.data) {
+        alert("Sección borrada exitosamente");
+
+        setSection(response.data.sections);
+        setShowSectionForm(false);
+        getSectionsFromLayout(editingLayoutId);
+      } else {
+        alert("Error actualizando la sección");
+      }
+    } catch (error) {
+      console.error("Error al actualizar la sección:", error);
     }
   };
 
@@ -352,10 +408,65 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
                 width: `${formData.baseDesign.width}px`,
                 height: `${formData.baseDesign.height}px`,
                 border: "1px solid black",
+                position: "relative",
               }}
             >
-              Preview
+              {section.map((sec, id) => (
+                <div
+                  className="sec-name-cont"
+                  key={sec._id}
+                  style={{
+                    position: "absolute",
+                    width: `${sec.width}px`,
+                    height: `${sec.height}px`,
+                    top: `${sec.top}%`,
+                    left: `${sec.left}%`,
+                    border: "1px solid red",
+                  }}
+                >
+                  {sec.name}
+                </div>
+              ))}
+              <div>
+                {showSectionForm && (
+                  <div
+                    className="sec-name-cont-preview"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      whiteSpace: "nowrap",
+                      position: "absolute",
+                      width: `${sectionFormData.width || 0}px`,
+                      height: `${sectionFormData.height || 0}px`,
+                      top: `${sectionFormData.top || 0}%`,
+                      left: `${sectionFormData.left || 0}%`,
+                      border: "1px solid blue",
+                    }}
+                  >
+                    {sectionFormData.name || "Vista previa"}
+                  </div>
+                )}
+              </div>
             </div>
+            {/* <Github
+              id="color-picker"
+              //   style={{
+              //     width: "10rem",
+              //     height: "10rem",
+              //   }}
+              //   colors={[
+              //     "#D9E3F0",
+              //     "#F47373",
+              //     "#697689",
+              //     "#37D67A",
+              //     "#2CCCE4",
+              //     "#555555",
+              //     "#dce775",
+              //     "#ff8a65",
+              //     "#ba68c8",
+              //   ]}
+            /> */}
             <div className="add-layout-section">
               {showSectionForm ? (
                 // Form #2 Principio
@@ -368,50 +479,38 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
                     <input
                       type="text"
                       name="name"
-                      value={sectionFormData.name}
+                      value={sectionFormData.name || ""}
                       onChange={handleChangeSection}
                     />
                     <div className="add-section-form2">
                       <p>Status</p>
-                      <p>Top</p>
+                      <p>Y</p>
                       <input
                         type="text"
                         name="status"
-                        value={sectionFormData.status}
+                        value={sectionFormData.status || ""}
                         onChange={handleChangeSection}
                       />
                       <input
                         type="number"
                         name="top"
-                        value={sectionFormData.top}
+                        value={sectionFormData.top || ""}
                         onChange={handleChangeSection}
                       />
-                      <p>Bottom</p>
-                      <p>Left</p>
-                      <input
-                        type="number"
-                        name="bottom"
-                        value={sectionFormData.bottom}
-                        onChange={handleChangeSection}
-                      />
-                      <input
-                        type="number"
-                        name="left"
-                        value={sectionFormData.left}
-                        onChange={handleChangeSection}
-                      />
-                      <p>Right</p>
+
+                      <p>X</p>
                       <p>Width</p>
                       <input
                         type="number"
-                        name="right"
-                        value={sectionFormData.right}
+                        name="left"
+                        value={sectionFormData.left || ""}
                         onChange={handleChangeSection}
                       />
+
                       <input
                         type="number"
                         name="width"
-                        value={sectionFormData.width}
+                        value={sectionFormData.width || ""}
                         onChange={handleChangeSection}
                       />
                       <p>Height</p>
@@ -419,24 +518,34 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
                       <input
                         type="number"
                         name="height"
-                        value={sectionFormData.height}
+                        value={sectionFormData.height || ""}
                         onChange={handleChangeSection}
                       />
                       <input
                         type="number"
                         name="color"
-                        value={sectionFormData.color}
+                        value={sectionFormData.color || ""}
                         onChange={handleChangeSection}
                       />
                     </div>
                   </div>
                   <hr />
-                  <button
-                    type="submit"
-                    className={showSectionForm ? "" : "hidden"}
-                  >
-                    Add
-                  </button>
+                  <div className="add-delete-section">
+                    <button
+                      type="submit"
+                      className={showSectionForm ? "" : "hidden"}
+                      onClick={
+                        isEditingSection2
+                          ? handleUpdateSection
+                          : handleSubmitSection
+                      }
+                    >
+                      {isEditingSection ? "Update" : "Add"}
+                    </button>
+                    <button type="button" onClick={deleteSection}>
+                      Delete
+                    </button>
+                  </div>
                 </form>
               ) : (
                 //   Form #2 Final
@@ -456,7 +565,14 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
                   <h4 className="created-sections">Created Sections:</h4>
                   <div className="sec-container">
                     {section.map((sec) => (
-                      <p className="sec-name">{sec.name}</p>
+                      <div className="sec-name-cont" key={sec._id}>
+                        <p
+                          className="sec-name"
+                          onClick={() => handleSectionClick(sec._id)}
+                        >
+                          {sec.name}
+                        </p>
+                      </div>
                     ))}
                   </div>
                 </div>
