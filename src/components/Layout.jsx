@@ -6,22 +6,22 @@ import { Github } from "react-color/lib/components/github/Github";
 let initialFormData = {
   name: "",
   baseDesign: {
-    width: "",
-    height: "",
+    width: 450,
+    height: 200,
     sections: [],
   },
 };
 
 const initialSectionFormData = {
-  name: "",
-  status: "",
-  top: "",
+  name: "T#",
+  status: "Available",
+  top: 4,
   bottom: "",
   left: "",
   right: "",
-  width: "",
-  height: "",
-  color: "",
+  width: 50,
+  height: 50,
+  color: "ffffff",
 };
 
 const Layout = ({ selectedVenue, fetchVenues }) => {
@@ -39,7 +39,8 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
   const [section, setSection] = useState([]);
   const [isEditingSection2, setIsEditingSection] = useState(false);
 
-  let isEditingSection = !!sectionFormData._id;
+//   let isEditingSection = !!sectionFormData._id;
+  const [legend, setLegendData] = useState(null);
 
   const handleForm = () => {
     setShowForm((prevState) => !prevState);
@@ -64,6 +65,7 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
     setSectionFormData(currentSection);
     setShowSectionForm(true);
     setIsEditingSection(true); // Set to true since you're editing
+    setLegendData(currentSection);
   };
 
   const handleLayoutClick = (layout) => {
@@ -179,6 +181,7 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
           alert("Section added and assigned successfully");
           handleSectionForm((prevState) => !prevState);
           fetchVenues();
+          setLegendData(null);
           setChange(!change);
           setSectionFormData(initialSectionFormData);
           getSectionsFromLayout(editingLayoutId);
@@ -205,10 +208,10 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
       );
       console.log("Line 198 - sectionFormData:", sectionFormData);
       if (response.data) {
-        alert("Sección actualizada exitosamente");
         setSection(response.data.sections);
         setShowSectionForm(false);
         getSectionsFromLayout(editingLayoutId);
+        setLegendData(null);
         setChange(!change);
       } else {
         alert("Error actualizando la sección");
@@ -416,12 +419,17 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
                   className="sec-name-cont"
                   key={sec._id}
                   style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    whiteSpace: "nowrap",
                     position: "absolute",
-                    width: `${sec.width}px`,
-                    height: `${sec.height}px`,
-                    top: `${sec.top}%`,
-                    left: `${sec.left}%`,
-                    border: "1px solid red",
+                    width: `${sec.width || 0}px`,
+                    height: `${sec.height || 0}px`,
+                    top: `${sec.top || 0}%`,
+                    left: `${sec.left || 0}%`,
+                    backgroundColor: `#${sec.color}`,
+                    border: "1px solid black",
                   }}
                 >
                   {sec.name}
@@ -441,10 +449,11 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
                       height: `${sectionFormData.height || 0}px`,
                       top: `${sectionFormData.top || 0}%`,
                       left: `${sectionFormData.left || 0}%`,
+                      backgroundColor: `#${sectionFormData.color}`,
                       border: "1px solid blue",
                     }}
                   >
-                    {sectionFormData.name || "Vista previa"}
+                    {sectionFormData.name}
                   </div>
                 )}
               </div>
@@ -483,12 +492,12 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
                       onChange={handleChangeSection}
                     />
                     <div className="add-section-form2">
-                      <p>Status</p>
+                      <p>X</p>
                       <p>Y</p>
                       <input
-                        type="text"
-                        name="status"
-                        value={sectionFormData.status || ""}
+                        type="number"
+                        name="left"
+                        value={sectionFormData.left || ""}
                         onChange={handleChangeSection}
                       />
                       <input
@@ -498,12 +507,13 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
                         onChange={handleChangeSection}
                       />
 
-                      <p>X</p>
+                      <p>Status</p>
                       <p>Width</p>
+
                       <input
-                        type="number"
-                        name="left"
-                        value={sectionFormData.left || ""}
+                        type="text"
+                        name="status"
+                        value={sectionFormData.status || ""}
                         onChange={handleChangeSection}
                       />
 
@@ -521,12 +531,22 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
                         value={sectionFormData.height || ""}
                         onChange={handleChangeSection}
                       />
-                      <input
-                        type="number"
+                      <select
                         name="color"
                         value={sectionFormData.color || ""}
                         onChange={handleChangeSection}
-                      />
+                      >
+                        <option value="ffffff">None</option>
+                        <option value="D9E3F0">Light Blue</option>
+                        <option value="F47373">Light Red</option>
+                        <option value="697689">Blue</option>
+                        <option value="37D67A">Green</option>
+                        <option value="2CCCE4">Aqua</option>
+                        <option value="dce775">Yellow</option>
+                        <option value="ff8a65">Orange</option>
+                        <option value="ba68c8">Purple</option>
+                        <option value="111111">Black</option>
+                      </select>
                     </div>
                   </div>
                   <hr />
@@ -540,7 +560,7 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
                           : handleSubmitSection
                       }
                     >
-                      {isEditingSection ? "Update" : "Add"}
+                      {isEditingSection2 ? "Update" : "Add"}
                     </button>
                     <button type="button" onClick={deleteSection}>
                       Delete
@@ -599,6 +619,14 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
           ))}
         </div>
       )}
+
+      <div className={isEditingSection2 ? "legend-container" : "hide"}>
+        <h2>Legend</h2>
+        <h4>
+          Create Seats For Section:
+          {isEditingSection2 ? <span>{legend.name}</span> : <span></span>}
+        </h4>
+      </div>
     </div>
   );
 };

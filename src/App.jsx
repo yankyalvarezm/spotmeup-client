@@ -9,6 +9,9 @@ import Venues from "./pages/Venues";
 import AboutUs from "./pages/AboutUs";
 import Events from "./pages/Events";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
+import Concert from "./pages/Concert";
+import NightClub from "./pages/NightClub";
+import Private from "./pages/Private";
 
 function App() {
   const getToken = () => {
@@ -37,6 +40,9 @@ function App() {
         <Route path="/myevents" element={<MyEvents />} />
         <Route path="/myevents/create" element={<Create />} />
         <Route path="/myevents/create/venue" element={<CreateVenue />} />
+        <Route path="/myevents/create/concert" element={<Concert />} />
+        <Route path="/myevents/create/nightclub" element={<NightClub />} />
+        <Route path="/myevents/create/private" element={<Private />} />
         <Route path="/events" element={<Events />} />
         {/* </Route> */}
 

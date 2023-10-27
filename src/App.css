@@ -800,6 +800,11 @@ p {
  text-align: center;
 }
 
+.add-section-form2 > select{
+  width: 115%;
+  text-align: center;
+ }
+
 .add-section-form1 > input{
   width: 100%;
   text-align: center;
@@ -851,9 +856,10 @@ h5 {
 .sec-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 0.7rem;
-  grid-row-gap: 0.7rem;
+  grid-column-gap: 0.2rem;
+  grid-row-gap: 0.2rem;
   margin: 0 auto;
+  font-size: 10px;
   /* border: 1px solid black; */
 }
 
@@ -875,13 +881,85 @@ h5 {
 }
 
 .sec-name-cont {
-  /* padding: 1rem; */
-  /* text-align: center; */
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .github-picker{
   width: 100%;
+}
+.create-concert {
+  text-align: center;
+}
+
+.home-container {
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-left: 3rem;
+}
+
+.home-container {
+  
+  font-family: 'Arial', sans-serif;
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.home-content-cont {
+  position: relative;
+  overflow: hidden; 
+  white-space: nowrap; 
+  width: 900px;
+  height: 200px; 
+  cursor: pointer; 
+}
+
+.home-disappear-content {
+  display: flex;
+  transition: transform 0.3s ease-in-out; 
+}
+
+.event-card {
+  flex: 0 0 auto;
+  width: 150px; 
+  height: 150px;
+  margin-right: 20px;
+  background-color: #ccc;
+  text-align: center;
+  line-height: 150px;
+  border-radius: 10px;
+}
+
+
+.home-content-cont {
+  position: relative;
+  overflow: hidden;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
+  display: none; /* Por defecto, las flechas están ocultas */
+}
+
+.home-content-cont:hover .arrow {
+  display: block; /* Muestra las flechas cuando se pasa el mouse por encima */
+}
+
+.arrow.left {
+  left: 0;
+}
+
+.arrow.right {
+  right: 0;
 }

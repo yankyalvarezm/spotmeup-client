@@ -9,7 +9,6 @@ const Create = () => {
       <Navbar />
       {/* </div> */}
       <div className="main-content">
-        
         <div className="admin-container">
           <div>
             <Link to="/myevents">
@@ -30,7 +29,9 @@ const Create = () => {
             <Link to="/myevents/create/venue">
               <p>Venue</p>
             </Link>
-            <p>Concert</p>
+            <Link to="/myevents/create/concert">
+              <p>Concert</p>
+            </Link>
             <p>Night Club</p>
             <p>Private</p>
             <p>Other</p>
