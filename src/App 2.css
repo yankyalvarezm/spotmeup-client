@@ -912,7 +912,7 @@ h5 {
   position: relative;
   overflow: hidden; 
   white-space: nowrap; 
-  width: 850px;
+  width: 900px;
   height: 200px; 
   cursor: pointer; 
 }
@@ -962,39 +962,4 @@ h5 {
 
 .arrow.right {
   right: 0;
-}
-
-
-.sampleimage-cont-flex {
-  display: flex;
-  justify-content: center;
-}
-
-.sampleimage-cont > h1 {
-  text-align: center;
-  margin: 0 auto;
-}
-
-.sampleimage-cont-flex > div{
-  
-  width: 10px;
-  height: 10px;
-  border: 1px solid white;
-  border-radius: 50%;
-  font-size: 1rem;
-  background-color: white;
-  margin-left: 3rem;
-  margin-top: 14rem;
-}
-
-.sampleimage-cont-flex > div:first-of-type{
-  background-color: #7a7a7e;
-  border: 1px solid #7a7a7e;
-}
-
-.sampleimage-cont {
-  background-color: #3D3C47;
-  padding: 3rem;
-  border: 5px solid black;
-  border-radius: 20px;
 }

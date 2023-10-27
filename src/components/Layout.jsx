@@ -39,7 +39,7 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
   const [section, setSection] = useState([]);
   const [isEditingSection2, setIsEditingSection] = useState(false);
 
-//   let isEditingSection = !!sectionFormData._id;
+  //   let isEditingSection = !!sectionFormData._id;
   const [legend, setLegendData] = useState(null);
 
   const handleForm = () => {
@@ -211,7 +211,7 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
         setSection(response.data.sections);
         setShowSectionForm(false);
         getSectionsFromLayout(editingLayoutId);
-        setLegendData(null);
+        // setLegendData(null);
         setChange(!change);
       } else {
         alert("Error actualizando la sección");
@@ -432,7 +432,7 @@ const Layout = ({ selectedVenue, fetchVenues }) => {
                     border: "1px solid black",
                   }}
                 >
-                  {sec.name}
+                  {sec && sec.name}
                 </div>
               ))}
               <div>

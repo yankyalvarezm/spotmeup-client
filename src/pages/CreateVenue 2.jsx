@@ -126,9 +126,16 @@ const CreateVenue = () => {
           </div>
           <div className="admin-container1">
             <p className="selected">Venues</p>
-            <p>Concert</p>
-            <p>Night Club</p>
-            <p>Private</p>
+            <Link to="/myevents/create/concert">
+              <p>Concert</p>
+            </Link>
+
+            <Link to="/myevents/create/nightclub">
+              <p>Night</p>
+            </Link>
+            <Link to="/myevents/create/private">
+              <p>Private</p>
+            </Link>
             <p>Other</p>
           </div>
         </div>

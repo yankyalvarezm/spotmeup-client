@@ -3,6 +3,7 @@ import editIcon from "../../public/images/edit-icon.png";
 import trashIcon from "../../public/images/trash-icon.png";
 import { useState } from "react";
 import axios from "axios";
+import Layout from "./Layout";
 
 const US_STATES = [
   { name: "Alabama", abbreviation: "AL" },
@@ -66,14 +67,12 @@ const CreateModal = ({
   handleSaveChanges,
   refresh,
   setRefresh,
+  fetchVenues,
+  venues
 }) => {
-
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
-
-
   const handleDeleteVenue = async () => {
-
     try {
       const { data } = await axios.delete(
         `http://localhost:3000/venue/delete/${selectedVenue._id}`,
@@ -81,70 +80,71 @@ const CreateModal = ({
       );
 
       if (data.success) {
-
         const updatedVenue = data.venue;
 
-        const updatedVenues = venues.filter(venue => venue._id !== updatedVenue._id);
+        const updatedVenues = venues.filter(
+          (venue) => venue._id !== updatedVenue._id
+        );
 
         setVenues(updatedVenues);
       }
 
       setRefresh(!refresh);
-      console.log('Line 92 - Refresh:', refresh);
+      console.log("Line 92 - Refresh:", refresh);
     } catch (error) {
       console.error("Error deleting venue:", error);
     }
 
-    console.log('Line 97 - Delete Confirmation:', showDeleteConfirmation)
+    console.log("Line 97 - Delete Confirmation:", showDeleteConfirmation);
 
-    setShowDeleteConfirmation(false); 
-    console.log('Line 100 - Show delete:', showDeleteConfirmation)
-    closeModal(); 
+    setShowDeleteConfirmation(false);
+    console.log("Line 100 - Show delete:", showDeleteConfirmation);
+    closeModal();
   };
 
   if (!selectedVenue) return null;
 
   return (
     <>
-
-
       <div className="modal-background" onClick={closeModal}></div>
       <div className="modal">
         <div className="modal-title">
           <h2>{selectedVenue.name}</h2>
           <div className="modal-icons-container">
-
             <div
               className={isEditing ? "venue-edit" : "edit-image"}
               onClick={() => {
                 setShowDeleteConfirmation(false);
-                console.log('Line 127 - Show delete:', showDeleteConfirmation)
-                isEditing ? handleSaveChanges() : handleEditClick()
+                console.log("Line 127 - Show delete:", showDeleteConfirmation);
+                isEditing ? handleSaveChanges() : handleEditClick();
               }}
-
             >
               {isEditing ? (
-                <button className="venue-edit-save-changes">Save Changes</button>
+                <button className="venue-edit-save-changes">
+                  Save Changes
+                </button>
               ) : (
                 <img src={editIcon} alt="edit-icon" />
               )}
             </div>
             {isEditing ? (
-              <div className="traash-icon-contarwiner" >
-
-              </div>
+              <div className="traash-icon-contarwiner"></div>
             ) : (
-                <div className="traash-icon-container" >
-                  <img src={trashIcon} alt="trash icon" id="trash-icon" onClick={() => {
-                    setShowDeleteConfirmation(true)
-                    console.log('Line 145 - Show delete:', showDeleteConfirmation)
-                  }} />
-                </div>
+              <div className="traash-icon-container">
+                <img
+                  src={trashIcon}
+                  alt="trash icon"
+                  id="trash-icon"
+                  onClick={() => {
+                    setShowDeleteConfirmation(true);
+                    console.log(
+                      "Line 145 - Show delete:",
+                      showDeleteConfirmation
+                    );
+                  }}
+                />
+              </div>
             )}
-
-
-
-
           </div>
         </div>
         <div className="modal-container">
@@ -153,7 +153,9 @@ const CreateModal = ({
               <p>U sure?</p>
               <div className="delete-confirmation-btn">
                 <button onClick={() => handleDeleteVenue()}>Sí</button>
-                <button onClick={() => setShowDeleteConfirmation(false)}>No</button>
+                <button onClick={() => setShowDeleteConfirmation(false)}>
+                  No
+                </button>
               </div>
             </div>
           )}
@@ -244,7 +246,7 @@ const CreateModal = ({
               />
             </div>
           ) : (
-            <div className={showDeleteConfirmation ? 'hide' : 'unhide'}>
+            <div className={showDeleteConfirmation ? "hide" : "unhide"}>
               <p>
                 <span>Address:</span> {selectedVenue.address}
               </p>
@@ -268,6 +270,12 @@ const CreateModal = ({
                 <span>Desciption:</span>
                 {selectedVenue.description}
               </p>
+              <Layout 
+              selectedVenue={selectedVenue}
+              fetchVenues={fetchVenues}
+              venues={venues}
+              refresh={refresh}
+               />
             </div>
           )}
         </div>
