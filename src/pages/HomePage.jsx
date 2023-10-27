@@ -163,47 +163,6 @@ class HomePage extends React.Component {
                 </div>
               </div>
             </div>
-
-            <div className="home-container">
-              <h2>Recently Uploaded</h2>
-              <div
-                className="home-content-cont"
-                onClick={(e) => {
-                  if (e.clientX < window.innerWidth / 2) {
-                    this.handleScroll("left");
-                  } else {
-                    this.handleScroll("right");
-                  }
-                }}
-              >
-                <div
-                  className="arrow left"
-                  onClick={() => this.handleScroll("left")}
-                >
-                  &#8592;
-                </div>
-                <h4>See All </h4>
-                <div className="home-disappear-content">
-                  <div className="event-card">Upload #1</div>
-                  <div className="event-card">Upload #2</div>
-                  <div className="event-card">Upload #3</div>
-                  <div className="event-card">Upload #4</div>
-                  <div className="event-card">Upload #5</div>
-                  <div className="event-card">Upload #6</div>
-                  <div className="event-card">Upload #7</div>
-                  <div className="event-card">Upload #8</div>
-                  <div className="event-card">Upload #9</div>
-                  <div className="event-card">Upload #10</div>
-                  <div className="event-card">Upload #11</div>
-                </div>
-                <div
-                  className="arrow right"
-                  onClick={() => this.handleScroll("right")}
-                >
-                  &#8594;
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
